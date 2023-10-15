@@ -36,4 +36,3 @@ Route::put('/Lote/{id}', [LoteController::class, 'Actualizar'])->middleware(Aute
 Route::post('/PaqueteLote', [LoteController::class, 'crearLotes'])->middleware(Autenticacion::class);
 Route::post('/Paquete',[PaqueteController::class,"Insertar"])->middleware(Autenticacion::class);
 Route::get('/Paquete',[PaqueteController::class,"Listar"])->middleware(Autenticacion::class);
-//->middleware(Autenticacion::class);
