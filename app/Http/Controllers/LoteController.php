@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lote;
+use App\Models\LotePaquete;
 use App\Models\Conforma;
 use App\Models\Paquete;
 
@@ -12,48 +13,46 @@ use Illuminate\Http\Request;
 
 class LoteController extends Controller
 {
-
-
-
-
     public function Insertar(Request $request)
-    {
-   
-
+    { 
         $lote = Lote::create($data);
-
         return response()->json(['message' => 'Lote creado con éxito', 'data' => $lote], 201);
     }
-    
- 
-   
- 
+           
 
-    
+
     public function crearLotes(Request $request)
     {
-        
-        $request = $request->json()->all();
-
-        if (!is_array($request) || empty($request)) {
-            return response()->json(['message' => 'Error en el formato de datos'], 400);
-        }     
-
-        $paquetesAConsolidar = $request['Paquetes'];
-
-        foreach ($paquetesAConsolidar as $paquete) {
-        $lote = new Lote();
-        $lote->lote = $paquete['lote'];
-        $lote->estatus = $paquete['estatus'];
-        $lote->paqueteId = $paquete['paqueteId'];
-        $lote->camionId = $paquete['camionId'];        
-        $lote->save();
-        Paquete::where('id', $paquete['paqueteId'])->delete();
-        }        
-
-        return response()->json(['message' => 'Lotes guardados exitosamente'], 200);
+        $requestData = $request->json()->all();
     
+        if (!is_array($requestData) || empty($requestData)) {
+            return response()->json(['message' => 'Error en el formato de datos'], 400);
+        }
+    
+        $estado = "Consolidado";
+        $paquetesSeleccionados = json_decode($requestData['selectedPackages'], true)['Paquetes'];
+    
+        if (isset($requestData['selectedCamion'])) {
+            $camionId = $requestData['selectedCamion'];
+        } else {
+            // Manejar el caso en el que no se proporciona el camión seleccionado.
+            return response()->json(['message' => 'Camión no seleccionado'], 400);
+        }
+    
+        foreach ($paquetesSeleccionados as $paquete) {
+            $lote = new Lote(); 
+            $lote->camionId = $camionId;     
+            $lote->estado = $estado;  
+            $lote->save();
+    
+            $lote->paquetes()->attach($paquetesSeleccionados);
+            Paquete::whereIn('id', $paquetesSeleccionados)->delete();
+        }
+    
+        return response()->json(['message' => 'Lotes guardados exitosamente'], 200);
     }
+    
+    
 
 
     public function Eliminar(Request $request, $id)
@@ -69,13 +68,16 @@ class LoteController extends Controller
         return response()->json(['error' => 'El Lote no existe'], 404);
     }
 
+
     public function Listar()
     {
-
-        $lote = Lote::all();
-        return response()->json($lote);
-
+        $lotes = Lote::leftJoin('lote_paquete', 'lotes.id', '=', 'lote_paquete.lote_id')
+            ->select('lotes.id', 'lotes.camionId', 'lotes.estado', 'lote_paquete.paquete_id')
+            ->get();
+    
+        return response()->json($lotes);
     }
+    
 
     public function Actualizar(Request $request, $loteId)
     {
@@ -85,7 +87,7 @@ class LoteController extends Controller
         try {
         
             $lote = Lote::findOrFail($loteId);   
-            $lote->estatus = $nuevoEstatus;  
+            $lote->estado = $nuevoEstatus;  
             $lote->save();
     
             
@@ -96,19 +98,15 @@ class LoteController extends Controller
             return response()->json(['error' => 'Error al actualizar el estatus del lote.'], 500);
         }
        
+        
     }
     
     
 
 
-    private function cumpleRequisitos($paquete)
-{
- 
-    if ($paquete->departamento != $paquete->lote->departamento) {
-        return false;
-    }
 
-    return true;
-}
+
+
+
 
 }

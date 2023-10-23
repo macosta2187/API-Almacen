@@ -28,7 +28,7 @@ Route::get("/Almacen", [AlmacenController::class, "Listar"])->middleware(Autenti
 Route::delete('/Almacen/{id}', [AlmacenController::class, 'Eliminar'])->middleware(Autenticacion::class);
 Route::post('/Almacen/{id}', [AlmacenController::class, 'Actualizar'])->middleware(Autenticacion::class);
 
-Route::post('/Lote', [LoteController::class, 'Insertar']);
+Route::post('/Lote', [LoteController::class, 'Insertar'])->middleware(Autenticacion::class);
 Route::get("/Lote", [LoteController::class, "Listar"])->middleware(Autenticacion::class);
 Route::delete('/Lote/{id}', [LoteController::class, 'Eliminar'])->middleware(Autenticacion::class);
 Route::put('/Lote/{id}', [LoteController::class, 'Actualizar'])->middleware(Autenticacion::class);
@@ -36,3 +36,5 @@ Route::put('/Lote/{id}', [LoteController::class, 'Actualizar'])->middleware(Aute
 Route::post('/PaqueteLote', [LoteController::class, 'crearLotes'])->middleware(Autenticacion::class);
 Route::post('/Paquete',[PaqueteController::class,"Insertar"])->middleware(Autenticacion::class);
 Route::get('/Paquete',[PaqueteController::class,"Listar"])->middleware(Autenticacion::class);
+
+

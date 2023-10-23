@@ -11,13 +11,14 @@ class AlmacenController extends Controller
     public function Insertar(Request $request)
     {
 
+       
         $almacen = new Almacen;
         $almacen->nombre = $request->input('nombre');
         $almacen->calle = $request->input('calle');
         $almacen->numero = $request->input('numero');
         $almacen->localidad = $request->input('localidad');
-        $almacen->departamento = $request->input('departamento');        
-        $almacen->telefono = $request->input('telefono'); 
+        $almacen->departamento = $request->input('departamento');
+        $almacen->telefono = $request->input('telefono');
         $almacen->save();
         return response()->json(['message' => 'Almacén creado exitosamente'], 200);
 
@@ -46,14 +47,14 @@ class AlmacenController extends Controller
     public function Actualizar(Request $request, $idalmacen)
     {
 
-        $almacen = Almacen::findOrFail($idalmacen);
+        $almacen = Almacen::findOrFail($idalmacen);       
         $almacen->nombre = $request->input('nombre');
         $almacen->calle = $request->input('calle');
         $almacen->numero = $request->input('numero');
         $almacen->localidad = $request->input('localidad');
-        $almacen->departamento = $request->input('departamento');        
+        $almacen->departamento = $request->input('departamento');
         $almacen->telefono = $request->input('telefono');
-        $almacen->save();
+        $almacen->save();   
         return response()->json($almacen);
 
     }
