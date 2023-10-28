@@ -71,8 +71,8 @@ class LoteController extends Controller
 
     public function Listar()
     {
-        $lotes = Lote::leftJoin('lote_paquete', 'lotes.id', '=', 'lote_paquete.lote_id')
-            ->select('lotes.id', 'lotes.camionId', 'lotes.estado', 'lote_paquete.paquete_id')
+        $lotes = Lote::leftJoin('lote_paquetes', 'lotes.id', '=', 'lote_paquetes.lote_id')
+            ->select('lotes.id', 'lotes.camionId', 'lotes.estado', 'lote_paquetes.paquete_id')
             ->get();
     
         return response()->json($lotes);
@@ -97,13 +97,31 @@ class LoteController extends Controller
            
             return response()->json(['error' => 'Error al actualizar el estatus del lote.'], 500);
         }
+      
        
         
     }
     
+    public function ActualizarEstado(Request $request, $paqueteId)
+    {
+        
+        $nuevoEstatus = $request->input('estado');    
+        try {
+        
+            $paquete = Paquete::findOrFail($paqueteId);   
+            $paquete->estado = $nuevoEstatus;  
+            $paquete->save();    
+            
+
+            return response()->json($paquete);
+        } catch (\Exception $e) {
+           
+            return response()->json(['error' => 'Error al actualizar el estatus del paquete.'], 500);
+        }
     
 
-
+    }
+    
 
 
 

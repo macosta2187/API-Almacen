@@ -38,3 +38,8 @@ Route::post('/Paquete',[PaqueteController::class,"Insertar"])->middleware(Autent
 Route::get('/Paquete',[PaqueteController::class,"Listar"])->middleware(Autenticacion::class);
 
 
+Route::put('/PaqueteEstado/{id}', [LoteController::class, 'ActualizarEstado'])->middleware(Autenticacion::class);
+
+
+
+

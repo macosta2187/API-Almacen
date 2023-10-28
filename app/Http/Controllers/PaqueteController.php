@@ -9,7 +9,7 @@ use App\Models\Creas;
 use App\Models\Empleado;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+
 
 class PaqueteController extends Controller
 {
@@ -33,8 +33,7 @@ class PaqueteController extends Controller
     }
 
 
-   use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+
 
 public function Insertar(Request $request)
 {

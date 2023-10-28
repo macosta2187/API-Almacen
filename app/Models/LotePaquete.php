@@ -10,6 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LotePaquete extends Model
 {
     use HasFactory;
-    protected $table = 'lote_paquete';
+    protected $table = 'lote_paquetes';
     use SoftDeletes;
 }

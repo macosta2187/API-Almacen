@@ -9,16 +9,16 @@ use App\Http\Controllers\LoteController;
 
 class Lote extends Model
 {
-   // protected $table = 'lotes';    
+  
     use SoftDeletes;
     use HasFactory;
 
-    protected $table = 'lotes'; // Nombre de la tabla en la base de datos
-    protected $primaryKey = 'id'; // Nombre de la clave primaria
+    protected $table = 'lotes'; 
+    protected $primaryKey = 'id'; 
 
     public function paquetes()
     {
-        return $this->belongsToMany(Paquete::class, 'lote_paquete', 'lote_id', 'paquete_id');
+        return $this->belongsToMany(Paquete::class, 'lote_paquetes', 'lote_id', 'paquete_id');
     }
     public function camion()
     {
