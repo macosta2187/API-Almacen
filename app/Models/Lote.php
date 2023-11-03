@@ -9,12 +9,22 @@ use App\Http\Controllers\LoteController;
 
 class Lote extends Model
 {
-    protected $table = 'lotes';    
-    protected $fillable = ['paqueteId', 'lote', 'estatus','camionId'];
+  
     use SoftDeletes;
     use HasFactory;
 
-   
+    protected $table = 'lotes'; 
+    protected $primaryKey = 'id'; 
+
+    public function paquetes()
+    {
+        return $this->belongsToMany(Paquete::class, 'lote_paquetes', 'lote_id', 'paquete_id');
+    }
+    public function camion()
+    {
+        return $this->belongsTo(Camion::class, 'camionId');
+    }
+
 }
 
 

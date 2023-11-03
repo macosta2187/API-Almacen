@@ -20,4 +20,10 @@ class Paquete extends Model
     {
         return $this->belongsToMany(Lote::class, 'lote_paquetes', 'paquete_id', 'lote_id');
     }
+
+    public function empleados()
+    {
+        return $this->belongsToMany(Empleado::class, 'crea_s', 'id_paquete', 'id_func');
+    }
+
 }
