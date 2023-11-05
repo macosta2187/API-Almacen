@@ -19,6 +19,8 @@ class AlmacenController extends Controller
         $almacen->localidad = $request->input('localidad');
         $almacen->departamento = $request->input('departamento');
         $almacen->telefono = $request->input('telefono');
+        $almacen->latitud = $request->input('latitud');
+        $almacen->longitud = $request->input('longitud');
         $almacen->save();
         return response()->json(['message' => 'Almacén creado exitosamente'], 200);
 
@@ -54,7 +56,11 @@ class AlmacenController extends Controller
         $almacen->localidad = $request->input('localidad');
         $almacen->departamento = $request->input('departamento');
         $almacen->telefono = $request->input('telefono');
+        $almacen->latitud = $request->input('latitud');
+        $almacen->longitud = $request->input('longitud');
+
         $almacen->save();   
+        
         return response()->json($almacen);
 
     }
