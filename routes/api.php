@@ -4,19 +4,13 @@ use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PaqueteController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Middleware\Autenticacion;
+use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\EmpleadoController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -41,5 +35,13 @@ Route::get('/Paquete',[PaqueteController::class,"Listar"])->middleware(Autentica
 Route::put('/PaqueteEstado/{id}', [LoteController::class, 'ActualizarEstado'])->middleware(Autenticacion::class);
 
 
+Route::post('/empresaInsertar',[EmpresaController::class,"Insertar"])->middleware(Autenticacion::class);
+Route::get('/empresa',[EmpresaController::class,"Listar"])->middleware(Autenticacion::class);
+Route::get('/clienteci',[ClientesController::class,"Listar"])->middleware(Autenticacion::class);
+Route::post('/cliente',[ClientesController::class,"Insertar"])->middleware(Autenticacion::class);
+
+
+Route::get('/empleado',[EmpleadoController::class,"Listar"])->middleware(Autenticacion::class);
+Route::get('/choferes',[EmpleadoController::class,"listarChoferes"])->middleware(Autenticacion::class);
 
 
