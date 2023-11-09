@@ -9,7 +9,7 @@ use App\Http\Controllers\AlmacenController;
 
 class Almacen extends Model
 {
-    protected $table = 'almacenes';
+    protected $table = 'almacen_es';
     use SoftDeletes;
     use HasFactory;
 }

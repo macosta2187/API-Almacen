@@ -32,8 +32,7 @@ class PaqueteController extends Controller
         
         $codigoDeSeguimiento = "TRACK_ADN2018" . $año . $mes . $dia . $hora . $minutos . $segundos . $identificadorUnico;
     
-        return $codigoDeSeguimiento;
-       
+        return $codigoDeSeguimiento;     
         
         
         
