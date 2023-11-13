@@ -34,8 +34,7 @@ class LoteController extends Controller
     
         if (isset($requestData['selectedCamion'])) {
             $camionId = $requestData['selectedCamion'];
-        } else {
-            // Manejar el caso en el que no se proporciona el camión seleccionado.
+        } else {           
             return response()->json(['message' => 'Camión no seleccionado'], 400);
         }
     
