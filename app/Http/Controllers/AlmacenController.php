@@ -65,8 +65,5 @@ class AlmacenController extends Controller
 
     }
 
-    public function edit(Almacen $almacen)
-    {
-        return view('Editar', compact('almacen'));
-    }
+
 }
