@@ -25,7 +25,7 @@ Route::post('/Almacen/{id}', [AlmacenController::class, 'Actualizar'])->middlewa
 Route::post('/Lote', [LoteController::class, 'Insertar'])->middleware(Autenticacion::class);
 Route::get("/Lote", [LoteController::class, "Listar"])->middleware(Autenticacion::class);
 Route::delete('/Lote/{id}', [LoteController::class, 'Eliminar'])->middleware(Autenticacion::class);
-Route::put('/Lote/{id}', [LoteController::class, 'Actualizar'])->middleware(Autenticacion::class);
+Route::match(['put', 'delete'],'/Lote/{id}', [LoteController::class, 'Actualizar'])->middleware(Autenticacion::class);
 
 Route::post('/PaqueteLote', [LoteController::class, 'crearLotes'])->middleware(Autenticacion::class);
 Route::post('/Paquete',[PaqueteController::class,"Insertar"])->middleware(Autenticacion::class);

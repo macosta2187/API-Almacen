@@ -20,6 +20,8 @@ class LoteController extends Controller
     }
            
 
+    
+
 
     public function crearLotes(Request $request)
     {
@@ -34,8 +36,7 @@ class LoteController extends Controller
     
         if (isset($requestData['selectedCamion'])) {
             $camionId = $requestData['selectedCamion'];
-        } else {
-            // Manejar el caso en el que no se proporciona el camión seleccionado.
+        } else {           
             return response()->json(['message' => 'Camión no seleccionado'], 400);
         }
     
@@ -52,8 +53,10 @@ class LoteController extends Controller
         return response()->json(['message' => 'Lotes guardados exitosamente'], 200);
     }
     
-    
+ 
+ 
 
+    
 
     public function Eliminar(Request $request, $id)
     {
@@ -79,29 +82,46 @@ class LoteController extends Controller
     }
     
 
+    public function restaurarPaquetes($loteId)
+    {
+        try {
+            
+            $lotePaquetes = LotePaquete::where('lote_id', $loteId)->get();    
+          
+            $paquetesId = $lotePaquetes->pluck('paquete_id')->toArray();
+    
+            Paquete::whereIn('id', $paquetesId)->restore();
+    
+            return response()->json(['message' => 'Paquetes restaurados correctamente.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al restaurar los paquetes'], 500);
+        }
+    }
+
+
     public function Actualizar(Request $request, $loteId)
     {
-        
         $nuevoEstatus = $request->input('estatus');
     
         try {
-        
             $lote = Lote::findOrFail($loteId);   
-            $lote->estado = $nuevoEstatus;  
+            
+            if ($nuevoEstatus == 'Desconsolidado') {                                           
+                $lote->delete();                
+                $this->restaurarPaquetes($loteId); 
+                return response()->json(['message' => 'Lote eliminado.']);
+            }    
+           
+            $lote->estado = $nuevoEstatus;
             $lote->save();
     
-            
-
             return response()->json($lote);
         } catch (\Exception $e) {
-           
-            return response()->json(['error' => 'Error al actualizar el estatus del lote.'], 500);
+            return response()->json(['error' => 'Error al actualizar'], 500);
         }
-      
-       
-        
     }
     
+
     public function ActualizarEstado(Request $request, $paqueteId)
     {
         

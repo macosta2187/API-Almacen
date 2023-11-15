@@ -106,7 +106,7 @@ class ExampleTest extends TestCase
             'nombre' => 'Prueba',
             'apellido' => 'Prueba',
             'email' => 'prueba@prueba.com',
-            'ci' => '14802303',
+            'ci' => '41416395',
             'direccion' => 'Prueba',
             'departamento' => 'Prueba',
             'telefono' => '123456789',
@@ -138,7 +138,7 @@ class ExampleTest extends TestCase
 {
     
     $data = [
-        'RUT' => '123456789010',
+        'RUT' => '123456789070',
         'nombre' => 'Empresa de Prueba',
         'calle' => 'Calle de Prueba',
         'numero' => 123,
@@ -159,6 +159,48 @@ class ExampleTest extends TestCase
 
     
 }
+
+
+
+    public function testInsertarClienteNoValido()
+    {
+        $data = [
+            'nombre' => 'Prueba',
+            'apellido' => 'Prueba',
+            'email' => 'prueba@prueba.com',
+            'ci' => '1480230744666',
+            'direccion' => 'Prueba',
+            'departamento' => 'Prueba',
+            'telefono' => '123456789',
+        ];
+    
+       
+        $response = $this->json('POST', 'http://127.0.0.1:8003/api/cliente', $data);           
+        $response->assertStatus(400);
+      
+
+    }
+
+    public function testInsertarAlmacenInvalido()
+    {
+        
+        $data = [
+            'nombre' => 'Pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+            'calle' => 'Prueba',
+            'numero' => '123',
+            'localidad' => 'Prueba',
+            'departamento' => 'Prueba',
+            'telefono' => '123456759',
+            'latitud' => '12.3456',
+            'longitud' => '-78.9012',
+        ];
+
+       
+        $response = $this->json('POST', 'http://127.0.0.1:8003/api/Almacen', $data);      
+        $response->assertStatus(500);  
+       
+    }
+
 
 
 
